@@ -1,10 +1,16 @@
 $(document).ready(function() {
-    var jugador = 1; // Inicialmente el jugador 1 comienza
+    var jugador1 = prompt("Ingrese el nombre del Jugador 1:");
+    var jugador2 = prompt("Ingrese el nombre del Jugador 2:");
+
+    $('.jugador1').prepend('<img src="./imagenes/OGande.png" alt="">').append(jugador1);
+    $('.jugador2').prepend('<img src="./imagenes/xgrande.png" alt="">').append(jugador2);
+
+    var jugadorActual = jugador1; // Comienza el juego con el jugador 1
     var ganador = false; // Variable para verificar si hay un ganador
 
     // Función para alternar entre jugadores
     function alternarJugador() {
-        jugador = jugador === 1 ? 2 : 1;
+        jugadorActual = (jugadorActual === jugador1) ? jugador2 : jugador1;
     }
 
     // Función para verificar si hay un ganador
@@ -30,7 +36,9 @@ $(document).ready(function() {
             // Si las tres casillas tienen la misma imagen y no están vacías, hay un ganador
             if (casilla1 !== undefined && casilla1 === casilla2 && casilla1 === casilla3) {
                 ganador = true;
-                alert("¡Jugador " + jugador + " ha ganado!");
+                setTimeout(() => {
+                    alert("¡" + jugadorActual + " ha ganado!");
+                }, 500);
                 return;
             }
         });
@@ -41,8 +49,8 @@ $(document).ready(function() {
         // Si ya hay un ganador o la casilla ya está marcada, no hacer nada
         if (ganador || $(this).find('img').attr('src') !== undefined) return;
 
-        // Obtener la imagen a colocar en la casilla según el jugador
-        var foto = jugador === 1 ? './imagenes/OGande.png' : './imagenes/xgrande.png';
+        // Obtener la imagen a colocar en la casilla según el jugador actual
+        var foto = (jugadorActual === jugador1) ? './imagenes/OGande.png' : './imagenes/xgrande.png';
 
         // Colocar la imagen en la casilla y cambiar al siguiente jugador
         $(this).append('<img src="' + foto + '">');
